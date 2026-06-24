@@ -15,5 +15,5 @@ public interface EnrollmentService {
 
     void deleteEnrollments(Long id);
 
-    void cancelledEnrollments(Long id);
+    void retiredEnrollments(Long id);
 }

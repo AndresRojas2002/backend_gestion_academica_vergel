@@ -2,15 +2,42 @@ package co.com.andres.backend_gestion_academica_vergel.model.Dto;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 
-import jakarta.validation.constraints.Email;    
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+/**
+ * DTO de solicitud para crear o actualizar un estudiante.
+ * 
+ * Si no se proporcionan teléfono o dirección, se asigna
+ * "no especificado" como valor por defecto.
+ * El rol se asigna automáticamente en el servidor como ROLE_STUDENT.
+ * 
+ * @author Andres
+ * @version 1.0
+ * @since 2026
+ * 
+ * @param userName      Nombre de usuario para autenticación
+ * @param password      Contraseña del estudiante
+ * @param name          Nombre del estudiante
+ * @param lastName      Apellido del estudiante
+ * @param phone         Número de teléfono (opcional)
+ * @param address       Dirección de residencia (opcional)
+ * @param email         Correo electrónico en formato válido
+ * @param studentNumber Número de identificación del estudiante
+ * @param parentId      ID del padre o acudiente responsable
+ */
 public record StudentsRequest(
-        //@NotBlank(message = "el usuario no puede ser nulo")
-        //@Min(value = 8, message = "el usuario debe contener al menos 8 caracteres")
-        //@JsonAlias({"user_name", "usuario"})
-        //String userName,
+
+        @NotBlank(message = "el nombre de usuario no puede ser nulo")
+        @JsonAlias({"usuario", "user_name"})
+        String userName,
+
+        @NotBlank(message = "la contraseña no puede ser nula")
+        @Size(min = 8, message = "la contraseña debe tener al menos 8 caracteres")
+        @JsonAlias({"contraseña", "password"})
+        String password,
 
         @NotBlank(message = "el nombre no puede ser nulo")
         @JsonAlias({"nombre"})
@@ -20,30 +47,32 @@ public record StudentsRequest(
         @JsonAlias({"apellido"})
         String lastName,
 
-        @Size(min = 7, max = 15, message = "el mumero de telefono debe de tener entre 7 y 15 caracteres")
+        @Size(min = 7, max = 15, message = "el número de teléfono debe tener entre 7 y 15 caracteres")
         @JsonAlias({"numero_telefono", "telefono"})
         String phone,
 
         @JsonAlias({"direccion"})
-        String addres,
+        String address,
 
-        @NotBlank(message = "el usuario no puede ser nulo")
-        @Email (message = "el formato del correo electronico no es valido ")
+        @NotBlank(message = "el correo electrónico no puede ser nulo")
+        @Email(message = "el formato del correo electrónico no es válido")
         @JsonAlias({"correo_electronico", "email"})
-        String email
+        String email,
 
-       // @NotBlank(message = "la contraseña no puede ser nula")
-       // @Size(min = 8, max = 20, message = "la contraseña debe tener entre 8 y 20 caracteres")
-       // @JsonAlias({"contraseña"})
-       // String password 
-) {
-        public StudentsRequest {
-                if (phone == null){
-                        phone = "no especificado"; 
-                }
-                if (addres == null) {
-                        addres =  "no especificado";
-                }
+        @NotBlank(message = "el numero de identificacion no puede ser nulo")
+        @JsonAlias({"numero_identificacion", "cedula", "identificacion"})
+        String studentNumber,
 
-        }        
+        @NotNull(message = "el acudiente no puede ser nulo")
+        @JsonAlias({"acudiente", "id_acudiente"})
+        Long parentId) {
+
+    public StudentsRequest {
+        if (phone == null) {
+            phone = "no especificado";
+        }
+        if (address == null) {
+            address = "no especificado";
+        }
+    }
 }

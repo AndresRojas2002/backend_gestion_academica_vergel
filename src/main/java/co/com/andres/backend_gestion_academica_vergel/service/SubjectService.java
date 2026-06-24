@@ -6,13 +6,13 @@ import co.com.andres.backend_gestion_academica_vergel.model.Dto.SubjectRequest;
 import co.com.andres.backend_gestion_academica_vergel.model.Dto.SubjectResponse;
 
 public interface SubjectService {
-    SubjectResponse createCourse(SubjectRequest courseRequest);
+    SubjectResponse createSubject(SubjectRequest subjectRequest);
 
-    List<SubjectResponse> getAllCourses();
+    List<SubjectResponse> getAllSubject();
 
-    SubjectResponse updateCourse(Long id, SubjectRequest courseRequest);
+    SubjectResponse updateSubject(Long id, SubjectRequest subjectRequest);
 
-    void deleteCourse(Long id);
+    void deleteSubject(Long id);
 
-    SubjectResponse getByIdCourse(Long id);
+    SubjectResponse getByIdSubject(Long id);
 }
