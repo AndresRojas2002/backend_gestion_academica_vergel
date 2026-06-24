@@ -1,0 +1,103 @@
+@startuml
+skinparam linetype ortho
+
+entity "Parent" {
+    * id : BIGINT <<PK>>
+    --
+    name : VARCHAR
+    lastName : VARCHAR
+    email : VARCHAR <<UK>>
+    phone : VARCHAR
+    address : VARCHAR
+    userName : VARCHAR <<UK>>
+    password : VARCHAR
+    parentNumber : VARCHAR <<UK>>
+}
+
+entity "Students" {
+    * id : BIGINT <<PK>>
+    --
+    name : VARCHAR
+    lastName : VARCHAR
+    email : VARCHAR <<UK>>
+    phone : VARCHAR
+    address : VARCHAR
+    userName : VARCHAR <<UK>>
+    password : VARCHAR
+    studentNumber : VARCHAR <<UK>>
+    # parentId : BIGINT <<FK>>
+}
+
+entity "Professors" {
+    * id : BIGINT <<PK>>
+    --
+    name : VARCHAR
+    lastName : VARCHAR
+    email : VARCHAR <<UK>>
+    phone : VARCHAR
+    address : VARCHAR
+    userName : VARCHAR <<UK>>
+    password : VARCHAR
+    professorNumber : VARCHAR <<UK>>
+}
+
+entity "Grade" {
+    * id : BIGINT <<PK>>
+    --
+    nameGrade : VARCHAR
+}
+
+entity "Subject" {
+    * id : BIGINT <<PK>>
+    --
+    nameSubject : VARCHAR
+    description : VARCHAR
+    # professorId : BIGINT <<FK>>
+    # gradeId : BIGINT <<FK>>
+}
+
+entity "Enrollments" {
+    * id : BIGINT <<PK>>
+    --
+    enrollmentDate : DATE
+    enrollmentsState : SMALLINT
+    # studentId : BIGINT <<FK>>
+    # gradeId : BIGINT <<FK>>
+}
+
+entity "Note" {
+    * id : BIGINT <<PK>>
+    --
+    value : DOUBLE
+    # enrollmentId : BIGINT <<FK>>
+    # subjectId : BIGINT <<FK>>
+}
+
+entity "student_roles" {
+    # studentId : BIGINT <<FK>>
+    rol : VARCHAR
+}
+
+entity "professor_roles" {
+    # professorId : BIGINT <<FK>>
+    rol : VARCHAR
+}
+
+entity "parent_roles" {
+    # parentId : BIGINT <<FK>>
+    rol : VARCHAR
+}
+
+' Relaciones
+Parent ||--o{ Students : "tiene"
+Students ||--o{ Enrollments : "tiene"
+Grade ||--o{ Enrollments : "pertenece"
+Grade ||--o{ Subject : "tiene"
+Professors ||--o{ Subject : "dicta"
+Enrollments ||--o{ Note : "tiene"
+Subject ||--o{ Note : "tiene"
+Students ||--o{ student_roles : "tiene"
+Professors ||--o{ professor_roles : "tiene"
+Parent ||--o{ parent_roles : "tiene"
+
+@enduml

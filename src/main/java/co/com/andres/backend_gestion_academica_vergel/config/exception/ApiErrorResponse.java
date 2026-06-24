@@ -9,70 +9,61 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 /**
- * Clase que representa la respuesta de error estandarizada para la API.
- * 
- * Esta clase se utiliza para encapsular información detallada sobre errores
- * que ocurren durante el procesamiento de solicitudes HTTP. Proporciona
- * una estructura consistente para el manejo de errores en toda la aplicación.
- * 
- * La clase utiliza anotaciones de Jackson para el formato JSON y Lombok
- * para la generación automática de getters, setters y otros métodos.
- * 
+ * Respuesta de error estandarizada para la API.
+ *
+ * <p>Encapsula la información necesaria para describir un error HTTP
+ * de forma consistente en todos los endpoints de la aplicación.</p>
+ *
  * @author Andres
  * @version 1.0
- * @since 2024
+ * @since 2026
  */
 @Data
 public class ApiErrorResponse {
 
     /**
-     * Marca de tiempo que indica cuándo ocurrió el error.
-     * Se formatea como string en formato ISO 8601.
+     * Marca de tiempo del momento en que ocurrió el error.
+     * Formateada en ISO 8601: {@code yyyy-MM-dd'T'HH:mm:ss}.
      */
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime timestamp;
 
     /**
-     * Código de estado HTTP que indica el tipo de error.
-     * Ejemplos: 400 (Bad Request), 404 (Not Found), 500 (Internal Server Error)
+     * Código numérico del estado HTTP.
+     * Ejemplo: 404, 409, 500.
      */
     private Integer status;
 
     /**
-     * Descripción del tipo de error basada en el código de estado HTTP.
-     * Ejemplos: "Bad Request", "Not Found", "Internal Server Error"
+     * Descripción del estado HTTP.
+     * Ejemplo: "Not Found", "Conflict", "Internal Server Error".
      */
     private String error;
 
     /**
-     * Mensaje descriptivo y específico del error que ocurrió.
-     * Proporciona información útil para el desarrollador o usuario.
+     * Mensaje descriptivo del error específico que ocurrió.
      */
     private String message;
 
     /**
-     * Ruta de la solicitud HTTP que causó el error.
-     * Útil para identificar el endpoint que generó el problema.
+     * Ruta del endpoint que generó el error.
+     * Ejemplo: {@code /api/students/99}.
      */
     private String path;
 
     /**
-     * Constructor que inicializa una respuesta de error con la información básica.
-     * 
-     * @param status Código de estado HTTP que representa el tipo de error
-     * @param message Mensaje descriptivo del error específico
-     * @param path Ruta de la solicitud que causó el error
+     * Construye una respuesta de error con la información básica.
+     *
+     * @param status  código de estado HTTP del error
+     * @param message mensaje descriptivo del error
+     * @param path    ruta de la solicitud que causó el error
+     * @since 2026
      */
     public ApiErrorResponse(HttpStatus status, String message, String path) {
-        this.timestamp = LocalDateTime.now(); // Obtiene la fecha y hora actual
-        this.status = status.value(); // Convierte el enum HttpStatus a su valor numérico
-        this.error = status.getReasonPhrase(); // Obtiene la descripción del código de estado HTTP
-        this.message = message; // Inicializa el mensaje descriptivo del error
-        this.path = path; // Inicializa la ruta de la solicitud que causó el error
+        this.timestamp = LocalDateTime.now();
+        this.status = status.value();
+        this.error = status.getReasonPhrase();
+        this.message = message;
+        this.path = path;
     }
-
-
-
-
-    
 }

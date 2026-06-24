@@ -1,6 +1,7 @@
 package co.com.andres.backend_gestion_academica_vergel.service.imp;
 
 
+import co.com.andres.backend_gestion_academica_vergel.config.exception.authenticate.InvalidCredentialsException;
 import co.com.andres.backend_gestion_academica_vergel.repository.ParentRepository;
 import co.com.andres.backend_gestion_academica_vergel.repository.ProfessorRepository;
 import co.com.andres.backend_gestion_academica_vergel.repository.StudentRepository;
@@ -79,6 +80,6 @@ public class AuthenticateServiceImpl implements UserDetailsService {
                     .build();
         }
 
-        throw new UsernameNotFoundException("Usuario no encontrado: " + username);
+        throw new InvalidCredentialsException();
     }
 }
